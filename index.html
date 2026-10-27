@@ -1,0 +1,477 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DueBack | We book your overdue pump-outs</title>
+<meta name="description" content="DueBack finds the past customers in your records who are overdue for a pump-out and books them back under your company's name. Our fee is $0 until a truck rolls.">
+<style>
+:root{
+  --slate:#16354A;
+  --slate-2:#1E4660;
+  --yellow:#FFC629;
+  --paper:#F6F7F5;
+  --ink:#1B232A;
+  --steel:#55636E;
+  --rule:#D3DADF;
+  --white:#FFFFFF;
+  --cond:"TeX Gyre Heros Cn","Helvetica Neue Condensed","Arial Narrow","Roboto Condensed",sans-serif;
+  --body:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);font-size:18px;line-height:1.55}
+img,svg{max-width:100%;display:block}
+a{color:inherit}
+a:focus-visible,summary:focus-visible{outline:3px solid var(--yellow);outline-offset:3px;border-radius:4px}
+.wrap{max-width:1120px;margin:0 auto;padding:0 24px}
+h1,h2,h3{font-family:var(--cond);font-weight:700;line-height:1.02;margin:0;letter-spacing:-.005em}
+p{margin:0}
+
+/* top bar */
+.bar{background:var(--slate);color:var(--white);border-bottom:1px solid rgba(255,255,255,.12)}
+.bar .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;height:68px}
+.logo{display:flex;align-items:center;gap:10px;font-family:var(--cond);font-weight:700;font-size:30px;letter-spacing:-.01em}
+.logo .dot{width:26px;height:26px;border-radius:50%;background:var(--yellow);position:relative;flex:none}
+.logo .dot::after{content:"";position:absolute;left:8px;top:5px;width:6px;height:10px;border-right:3px solid var(--slate);border-bottom:3px solid var(--slate);transform:rotate(40deg)}
+.bar-call{font-weight:700;font-size:17px;text-decoration:none;white-space:nowrap}
+.bar-call span{color:rgba(255,255,255,.7);font-weight:400}
+
+/* hero */
+.hero{background:var(--slate);color:var(--white);padding:60px 0 84px;overflow:hidden}
+.hero .wrap{display:grid;grid-template-columns:1.05fr .95fr;gap:56px;align-items:center}
+.hero h1{font-size:clamp(52px,7.2vw,96px)}
+.hero .sub{margin-top:22px;font-size:21px;line-height:1.45;color:rgba(255,255,255,.88);max-width:28em}
+.cta-row{margin-top:32px;display:flex;flex-wrap:wrap;align-items:center;gap:14px 24px}
+.btn{display:inline-block;background:var(--yellow);color:var(--ink);font-weight:700;font-size:18px;text-decoration:none;padding:18px 26px;border-radius:6px;box-shadow:0 3px 0 #C89300;text-align:center}
+.btn:hover{background:#FFD24F}
+.btn:active{transform:translateY(2px);box-shadow:0 1px 0 #C89300}
+.cta-alt{font-size:17px;color:rgba(255,255,255,.82)}
+.cta-alt a{color:var(--white);font-weight:700}
+.promise{margin:22px 0 0;padding:0;list-style:none;display:flex;flex-wrap:wrap;gap:8px 22px;font-size:16px;color:rgba(255,255,255,.88)}
+.promise li{position:relative;padding-left:22px}
+.promise li::before{content:"";position:absolute;left:2px;top:7px;width:11px;height:6px;border-left:2.5px solid var(--yellow);border-bottom:2.5px solid var(--yellow);transform:rotate(-45deg)}
+
+/* postcard art */
+.card-art{position:relative;padding:24px 24px 0 0}
+.postcard{background:#FDFDFB;color:var(--ink);border-radius:4px;box-shadow:0 24px 48px rgba(5,20,30,.45);transform:rotate(-2.5deg);overflow:hidden}
+.pc-photo{height:150px;background:linear-gradient(180deg,#9FC3D9 0 58%,#6E8B5A 58% 100%);position:relative}
+.pc-photo svg{position:absolute;left:24px;bottom:14px;width:230px;height:auto}
+.pc-co{position:absolute;top:14px;left:18px;background:rgba(255,255,255,.92);font-family:var(--cond);font-weight:700;font-size:18px;padding:4px 10px;border-radius:3px}
+.pc-body{display:grid;grid-template-columns:1.35fr 1fr;border-top:4px solid var(--slate)}
+.pc-msg{padding:18px 20px 22px;border-right:1px dashed #B9C3CA}
+.pc-msg .big{font-family:var(--cond);font-weight:700;font-size:26px;line-height:1.05}
+.pc-msg p{font-size:14px;line-height:1.45;margin-top:10px;color:#36424C}
+.pc-msg .date{background:#FFF1BF;padding:0 3px;font-weight:700;color:var(--ink)}
+.pc-addr{padding:18px;font-size:13px;line-height:1.5;color:#36424C;display:flex;flex-direction:column;justify-content:flex-end}
+.pc-addr .stamp{align-self:flex-end;width:44px;height:52px;border:2px dashed #B9C3CA;margin-bottom:auto}
+.pc-addr .line{height:1px;background:#C9D1D7;margin:9px 0 0}
+.pc-addr b{color:var(--ink)}
+.sticker{position:absolute;right:0;top:0;width:132px;height:132px;border-radius:50%;background:var(--yellow);color:var(--ink);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;transform:rotate(8deg);box-shadow:0 10px 22px rgba(5,20,30,.35);border:4px solid #fff}
+.sticker small{font-size:12px;font-weight:600;line-height:1.2}
+.sticker strong{font-family:var(--cond);font-size:34px;line-height:1;margin:2px 0}
+.art-note{margin-top:28px;font-size:14px;color:rgba(255,255,255,.72);max-width:34em}
+
+/* sourced facts */
+.facts{background:var(--white);border-bottom:1px solid var(--rule)}
+.facts .wrap{display:grid;grid-template-columns:1fr 1fr}
+.fact{padding:30px 32px 30px 0;display:flex;gap:20px;align-items:baseline}
+.fact + .fact{padding-left:32px;border-left:1px solid var(--rule)}
+.fact .num{font-family:var(--cond);font-weight:700;font-size:52px;line-height:1;color:var(--slate);white-space:nowrap}
+.fact p{font-size:17px;color:var(--steel)}
+.fact p b{color:var(--ink);font-weight:600}
+
+/* sections */
+section.block{padding:84px 0}
+.block h2{font-size:clamp(38px,4.6vw,58px);max-width:16em}
+.block .intro{margin-top:14px;font-size:19px;color:var(--steel);max-width:34em}
+.white{background:var(--white);border-top:1px solid var(--rule);border-bottom:1px solid var(--rule)}
+
+/* steps */
+.steps{margin-top:44px;display:grid;grid-template-columns:repeat(3,1fr);border-top:3px solid var(--ink)}
+.step{padding:26px 28px 8px 0}
+.step + .step{padding-left:28px;border-left:1px solid var(--rule)}
+.step .n{display:block;font-family:var(--cond);font-weight:700;font-size:20px;color:var(--steel)}
+.step h3{font-size:34px;margin-top:6px}
+.step p{margin-top:12px;font-size:17px;color:#38444E}
+.step ul{margin:14px 0 0;padding:0;list-style:none;font-size:16px;color:#38444E}
+.step li{padding:8px 0 8px 26px;border-top:1px solid var(--rule);position:relative}
+.step li::before{content:"";position:absolute;left:2px;top:15px;width:12px;height:7px;border-left:2.5px solid var(--slate);border-bottom:2.5px solid var(--slate);transform:rotate(-45deg)}
+.step.pay h3 span{background:var(--yellow);padding:0 6px;box-decoration-break:clone;-webkit-box-decoration-break:clone}
+
+/* example count */
+.count-grid{margin-top:40px;display:grid;grid-template-columns:1.15fr .85fr;gap:48px;align-items:start}
+.report{background:var(--white);border:2px solid var(--slate);border-radius:6px;overflow:hidden}
+.report-head{background:var(--slate);color:var(--white);padding:14px 20px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:baseline}
+.report-head b{font-family:var(--cond);font-size:24px}
+.report-head span{font-size:14px;background:var(--yellow);color:var(--ink);font-weight:700;padding:2px 8px;border-radius:3px}
+.report table{width:100%;border-collapse:collapse;font-size:17px}
+.report th,.report td{padding:13px 20px;border-bottom:1px solid var(--rule);text-align:left}
+.report thead th{font-size:14px;font-weight:600;color:var(--steel)}
+.report td.c,.report th.c{text-align:right;font-variant-numeric:tabular-nums}
+.bar-cell{width:42%}
+.meter{height:12px;background:#E6ECEF;border-radius:2px;overflow:hidden}
+.meter i{display:block;height:100%;background:var(--slate)}
+.report tfoot td{font-weight:700;border-bottom:0;background:#FFF6D6}
+.report .note{padding:14px 20px;font-size:15px;color:var(--steel);border-top:1px solid var(--rule)}
+.count-side h3{font-size:30px}
+.count-side ul{margin:14px 0 0;padding:0 0 0 20px;font-size:17px;color:#38444E}
+.count-side li{padding:5px 0}
+
+/* compare */
+.compare{margin-top:40px;width:100%;border-collapse:collapse;font-size:18px}
+.compare th,.compare td{text-align:left;padding:18px 20px;border-bottom:1px solid var(--rule);vertical-align:top}
+.compare thead th{font-family:var(--cond);font-size:26px;font-weight:700;border-bottom:3px solid var(--ink)}
+.compare thead th.us{background:var(--slate);color:var(--white)}
+.compare tbody th{font-weight:600;color:var(--steel);width:26%;font-size:16px}
+.compare td.us{background:#EEF3F6;font-weight:600}
+
+/* founder */
+.founder{display:grid;grid-template-columns:.8fr 1.2fr;gap:56px;align-items:start}
+.founder h2{font-size:clamp(34px,4vw,48px)}
+.founder p{font-size:18px;color:#2C3740;max-width:34em}
+.founder p + p{margin-top:14px}
+.founder .sig{margin-top:20px;font-weight:600;color:var(--ink);font-size:17px}
+.founder .sig span{display:block;font-weight:400;color:var(--steel)}
+.county{margin-top:22px;display:inline-block;border-left:5px solid var(--yellow);padding:6px 0 6px 14px;font-weight:700;font-size:18px}
+
+/* faq */
+.faq{margin-top:36px;border-top:3px solid var(--ink);max-width:820px}
+.faq details{border-bottom:1px solid var(--rule)}
+.faq summary{list-style:none;cursor:pointer;padding:20px 44px 20px 0;position:relative;font-weight:700;font-size:19px;line-height:1.35}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"";position:absolute;right:8px;top:50%;width:18px;height:18px;margin-top:-9px;background:
+  linear-gradient(var(--slate),var(--slate)) center/18px 3px no-repeat,
+  linear-gradient(var(--slate),var(--slate)) center/3px 18px no-repeat}
+.faq details[open] summary::after{background:linear-gradient(var(--slate),var(--slate)) center/18px 3px no-repeat}
+.faq .a{padding:0 0 22px;font-size:17px;color:#38444E;max-width:40em}
+.faq .a p + p{margin-top:10px}
+
+/* final cta */
+.final{background:var(--slate);color:var(--white);padding:84px 0}
+.final .wrap{display:grid;grid-template-columns:1.1fr .9fr;gap:56px;align-items:center}
+.final h2{font-size:clamp(40px,5vw,64px)}
+.final .intro{color:rgba(255,255,255,.86);margin-top:16px;font-size:19px;max-width:30em}
+.final .promise{margin-top:22px}
+.send{background:var(--slate-2);border-radius:6px;padding:28px 30px;border:1px solid rgba(255,255,255,.14)}
+.send h3{font-size:26px}
+.send ol{margin:12px 0 0;padding-left:22px;font-size:17px;color:rgba(255,255,255,.9)}
+.send li{padding:3px 0}
+.ways{margin-top:22px;display:grid;gap:12px}
+.ways .btn{display:block}
+.btn.ghost{background:transparent;color:var(--white);box-shadow:none;border:2px solid rgba(255,255,255,.5);font-size:17px;padding:14px 16px;word-break:break-word}
+.addr{font-size:15px;color:rgba(255,255,255,.75);text-align:center;word-break:break-all}
+.btn.ghost:hover{border-color:var(--white);background:rgba(255,255,255,.06)}
+
+footer{background:#0F2738;color:rgba(255,255,255,.62);font-size:14px;padding:24px 0}
+footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+/* sticky mobile bar */
+.sticky{display:none}
+
+/* responsive */
+@media (max-width:900px){
+  .hero{padding:44px 0 64px}
+  .hero .wrap,.final .wrap,.count-grid,.founder{grid-template-columns:1fr;gap:40px}
+  .card-art{max-width:520px}
+  .steps{grid-template-columns:1fr}
+  .step,.step + .step{padding:24px 0 18px;border-left:0}
+  .step + .step{border-top:1px solid var(--rule)}
+}
+@media (max-width:640px){
+  body{font-size:17px;padding-bottom:76px}
+  .wrap{padding:0 16px}
+  .bar .wrap{height:60px}
+  .logo{font-size:26px}
+  .bar-call span{display:none}
+  .hero{padding:36px 0 56px}
+  .hero h1{font-size:50px}
+  .hero .sub{font-size:18px;margin-top:16px}
+  .cta-row{margin-top:24px}
+  .btn{display:block;width:100%;padding:18px 16px}
+  .promise{flex-direction:column;gap:6px;font-size:15px}
+  .card-art{padding:18px 14px 0 0}
+  .pc-photo{height:112px}
+  .pc-photo svg{width:170px;left:14px}
+  .pc-body{grid-template-columns:1fr}
+  .pc-msg{border-right:0;border-bottom:1px dashed #B9C3CA}
+  .pc-msg .big{font-size:23px}
+  .pc-addr .stamp{display:none}
+  .sticker{width:104px;height:104px}
+  .sticker strong{font-size:27px}
+  .sticker small{font-size:11px}
+  .facts .wrap{grid-template-columns:1fr}
+  .fact,.fact + .fact{padding:22px 0;border-left:0;flex-direction:column;gap:6px}
+  .fact + .fact{border-top:1px solid var(--rule)}
+  .fact .num{font-size:44px}
+  section.block,.final{padding:56px 0}
+  .block .intro{font-size:18px}
+  .step h3{font-size:30px}
+  .report th,.report td{padding:11px 12px;font-size:16px}
+  .report-head,.report .note{padding-left:12px;padding-right:12px}
+  .bar-cell{width:34%}
+  .compare thead{display:none}
+  .compare,.compare tbody,.compare tr,.compare th,.compare td{display:block;width:100%}
+  .compare tr{border:1px solid var(--rule);border-radius:6px;margin-bottom:12px;overflow:hidden}
+  .compare tbody th{padding:12px 16px 4px;border:0;width:auto}
+  .compare td{padding:8px 16px;border:0}
+  .compare td::before{content:attr(data-label);display:block;font-size:13px;font-weight:600;color:var(--steel)}
+  .compare td.us{padding-bottom:12px}
+  .faq summary{font-size:18px;padding:18px 40px 18px 0}
+  .send{padding:22px 18px}
+  .sticky{display:grid;grid-template-columns:1fr 1fr;gap:10px;position:fixed;left:0;right:0;bottom:0;z-index:20;background:var(--slate);padding:10px 12px calc(10px + env(safe-area-inset-bottom));border-top:1px solid rgba(255,255,255,.18);box-shadow:0 -6px 18px rgba(5,20,30,.25)}
+  .sticky a{display:block;text-align:center;text-decoration:none;font-weight:700;font-size:17px;padding:14px 8px;border-radius:6px}
+  .sticky .s-call{background:var(--yellow);color:var(--ink)}
+  .sticky .s-text{border:2px solid rgba(255,255,255,.55);color:var(--white);padding:12px 8px}
+}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
+</style>
+</head>
+<body>
+
+<header class="bar">
+  <div class="wrap">
+    <span class="logo"><span class="dot" aria-hidden="true"></span>DueBack</span>
+    <a class="bar-call" href="tel:+17747736010"><span>Call or text </span>(774) 773-6010</a>
+  </div>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="wrap">
+      <div>
+        <h1>We book your overdue pump&#8209;outs.</h1>
+        <p class="sub">Your customers pumped 3+ years ago are due again. Most won't call until it backs up. We get them back on your schedule, under your name.</p>
+        <div class="cta-row">
+          <a class="btn" href="#count">Get your free Overdue Tank Count</a>
+          <p class="cta-alt">or call or text <a href="tel:+17747736010">(774) 773-6010</a></p>
+        </div>
+        <ul class="promise">
+          <li>Count back within a day</li>
+          <li>No monthly fee</li>
+          <li>Our fee is $0 until a truck rolls</li>
+        </ul>
+      </div>
+
+      <div>
+        <div class="card-art" role="img" aria-label="Sample postcard: your company name and truck, the customer's last pump-out date, addressed or Current Resident">
+          <div class="postcard">
+            <div class="pc-photo">
+              <span class="pc-co">Your Septic Co.</span>
+              <svg viewBox="0 0 240 90" aria-hidden="true">
+                <rect x="4" y="22" width="150" height="48" rx="24" fill="#E9EEF1" stroke="#16354A" stroke-width="3"/>
+                <rect x="40" y="38" width="80" height="14" rx="3" fill="#16354A"/>
+                <path d="M158 30h40l22 22v18h-62z" fill="#FFC629" stroke="#16354A" stroke-width="3"/>
+                <path d="M170 36h24l14 14h-38z" fill="#9FC3D9" stroke="#16354A" stroke-width="2"/>
+                <rect x="0" y="68" width="224" height="6" fill="#16354A"/>
+                <circle cx="40" cy="78" r="11" fill="#1B232A"/><circle cx="40" cy="78" r="4" fill="#C9D1D7"/>
+                <circle cx="120" cy="78" r="11" fill="#1B232A"/><circle cx="120" cy="78" r="4" fill="#C9D1D7"/>
+                <circle cx="198" cy="78" r="11" fill="#1B232A"/><circle cx="198" cy="78" r="4" fill="#C9D1D7"/>
+              </svg>
+            </div>
+            <div class="pc-body">
+              <div class="pc-msg">
+                <p class="big">Your tank is due for a pump&#8209;out.</p>
+                <p>We last pumped your 1,000 gal tank in <span class="date">June 2021</span>. Call us to get on the schedule before it backs up.</p>
+              </div>
+              <div class="pc-addr">
+                <span class="stamp" aria-hidden="true"></span>
+                <b>Customer Name</b>
+                <span>or Current Resident</span>
+                <span class="line"></span><span class="line"></span>
+              </div>
+            </div>
+          </div>
+          <div class="sticker" aria-hidden="true"><small>Last pumped</small><strong>2021</strong><small>Due again</small></div>
+        </div>
+        <p class="art-note">Sample card. Yours uses your trucks, your logo, and each customer's real last pump-out date.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="facts" aria-label="Why this works">
+    <div class="wrap">
+      <div class="fact">
+        <span class="num">3&ndash;5 yrs</span>
+        <p><b>How often most septic tanks should be pumped,</b> per the EPA.</p>
+      </div>
+      <div class="fact">
+        <span class="num">5&ndash;9%</span>
+        <p><b>Typical response to mail sent to past customers,</b> per the ANA.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="how">
+    <div class="wrap">
+      <h2>How it works</h2>
+      <p class="intro">You already have the customers. They just haven't heard from you since the last pump-out.</p>
+
+      <div class="steps">
+        <div class="step">
+          <span class="n">Step 1</span>
+          <h3>Free Overdue Tank Count</h3>
+          <p>Send your customer list. Town and last pump-out date is enough. No names needed.</p>
+          <p>You get back how many tanks are 3+ years overdue and what they're worth. Takes you about 5 minutes.</p>
+        </div>
+        <div class="step">
+          <span class="n">Step 2</span>
+          <h3>We reach them as you</h3>
+          <p>Postcards under your name, built from your own truck photos and branding.</p>
+          <ul>
+            <li>Each card shows that customer's last pump-out date (and tank size, if you have it)</li>
+            <li>Addressed "or Current Resident" in case the house sold</li>
+            <li>You approve every piece before it goes out</li>
+            <li>A tracking number for each mailing, forwarded to your office</li>
+            <li>About 10% of the list held back, so results are measured honestly</li>
+          </ul>
+        </div>
+        <div class="step pay">
+          <span class="n">Step 3</span>
+          <h3><span>$0 until a truck rolls.</span></h3>
+          <p>No monthly fee. No software. You pay only for tanks actually pumped from the campaign, plus postage at cost.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block white">
+    <div class="wrap">
+      <h2>See what your count looks like</h2>
+      <p class="intro">This is what you get back from Step 1. One page, sorted by how overdue each tank is.</p>
+
+      <div class="count-grid">
+        <div class="report">
+          <div class="report-head"><b>Overdue Tank Count</b><span>Example. Not a real company.</span></div>
+          <table>
+            <thead><tr><th>Last pumped</th><th class="c">Tanks</th><th class="bar-cell"><span class="sr">Share</span></th></tr></thead>
+            <tbody>
+              <tr><td>3 to 4 years ago</td><td class="c">180</td><td class="bar-cell"><div class="meter"><i style="width:100%"></i></div></td></tr>
+              <tr><td>5 to 6 years ago</td><td class="c">120</td><td class="bar-cell"><div class="meter"><i style="width:67%"></i></div></td></tr>
+              <tr><td>7 to 9 years ago</td><td class="c">70</td><td class="bar-cell"><div class="meter"><i style="width:39%"></i></div></td></tr>
+              <tr><td>10+ years ago</td><td class="c">30</td><td class="bar-cell"><div class="meter"><i style="width:17%"></i></div></td></tr>
+            </tbody>
+            <tfoot><tr><td>Overdue total</td><td class="c">400</td><td class="bar-cell">of 1,500 customers</td></tr></tfoot>
+          </table>
+          <p class="note">Worth: 400 &times; your own average pump-out price.</p>
+        </div>
+        <div class="count-side">
+          <h3>What you send</h3>
+          <ul>
+            <li>Your customer list, in whatever form you have it</li>
+            <li>At minimum: town and last pump-out date per customer</li>
+            <li>No names or phone numbers needed for the count</li>
+          </ul>
+          <p style="margin-top:22px"><a class="btn" href="#count">Get your free Overdue Tank Count</a></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="wrap">
+      <h2>Not another app to run</h2>
+      <p class="intro">Other options are software you pay for every month and still run yourself.</p>
+      <table class="compare">
+        <thead>
+          <tr><td></td><th scope="col">Follow-up software</th><th scope="col" class="us">DueBack</th></tr>
+        </thead>
+        <tbody>
+          <tr><th scope="row">Monthly fee</th><td data-label="Follow-up software">Roughly $99&ndash;450 a month</td><td class="us" data-label="DueBack">None</td></tr>
+          <tr><th scope="row">Who does the work</th><td data-label="Follow-up software">You do</td><td class="us" data-label="DueBack">We do. You approve.</td></tr>
+          <tr><th scope="row">When you pay</th><td data-label="Follow-up software">Every month, whether it works or not</td><td class="us" data-label="DueBack">Only for tanks pumped from the campaign, plus postage at cost</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="block white">
+    <div class="wrap founder">
+      <h2>Who's behind this</h2>
+      <div>
+        <p>I'm Cole Ormont, 19, from Plymouth, Massachusetts.</p>
+        <p>I asked more than 50 septic pumpers how they follow up with past customers. Almost nobody had a real system. So I started DueBack to do it for them.</p>
+        <p class="sig">Cole Ormont<span>Founder, DueBack</span></p>
+        <p class="county">Working with founding pumpers now. One pumper per county.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="faq">
+    <div class="wrap">
+      <h2>Straight answers</h2>
+      <div class="faq">
+        <details open>
+          <summary>Wouldn't calling them myself work better?</summary>
+          <div class="a"><p>Calls work. Mail reaches the ones whose numbers changed or who moved. Best is both: we can hand your office a street-sorted call list and a short script to go with the cards.</p></div>
+        </details>
+        <details>
+          <summary>How do I know they called because of the card? I get a lot of repeat customers.</summary>
+          <div class="a"><p>Each mailing has its own tracking number that forwards to your office. About 10% of the list is held back and not mailed, so you can compare. You only pay for bookings that come in on the card's number.</p></div>
+        </details>
+        <details>
+          <summary>Where does the tank size and location come from?</summary>
+          <div class="a"><p>Your own records: QuickBooks notes, your field app, or paper tickets. If you don't have tank size, the card shows the last pump-out date and skips that line.</p></div>
+        </details>
+        <details>
+          <summary>Do I have to offer a discount?</summary>
+          <div class="a"><p>Your call. Some options: a neighbor deal (book with a neighbor the same week and your truck does two tanks in one trip), or a book-by date.</p></div>
+        </details>
+        <details>
+          <summary>How many of these have you run?</summary>
+          <div class="a"><p>Straight answer: DueBack is new. We're working with founding pumpers now. That's why our fee is $0 until a truck rolls. You carry no risk beyond postage, and you can start small, around 200 cards.</p></div>
+        </details>
+        <details>
+          <summary>Is my customer list safe?</summary>
+          <div class="a"><p>Your list is never shared or sold, and it's deleted when you ask. For the count, you can send just town and last pump-out date.</p></div>
+        </details>
+        <details>
+          <summary>What does it cost?</summary>
+          <div class="a"><p>Nothing up front and no monthly fee. You pay only per tank actually pumped from the campaign, plus postage at cost. The per-tank rate is set with each founding pumper.</p></div>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <section class="final" id="count">
+    <div class="wrap">
+      <div>
+        <h2>Get your free Overdue Tank Count</h2>
+        <p class="intro">Find out how many past customers are overdue right now, and what they're worth.</p>
+        <ul class="promise">
+          <li>No form to fill out</li>
+          <li>Count back within a day</li>
+          <li>Your list is never shared or sold</li>
+        </ul>
+      </div>
+      <div class="send">
+        <h3>Send your list or just call</h3>
+        <ol>
+          <li>Town and last pump-out date per customer</li>
+          <li>Text it, email it, or call and we'll walk you through it</li>
+        </ol>
+        <div class="ways">
+          <a class="btn" href="tel:+17747736010">Call or text (774) 773-6010</a>
+          <a class="btn ghost" href="mailto:cole@duebackhq.com?subject=Free%20Overdue%20Tank%20Count">Email your list</a>
+          <p class="addr">cole@duebackhq.com</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>DueBack, Plymouth, Massachusetts</span>
+    <span>(774) 773-6010</span>
+  </div>
+</footer>
+
+<nav class="sticky" aria-label="Contact DueBack">
+  <a class="s-call" href="tel:+17747736010">Call</a>
+  <a class="s-text" href="sms:+17747736010">Text</a>
+</nav>
+
+</body>
+</html>
