@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://duebackhq.com/sitemap.xml
